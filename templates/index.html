@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot - Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            height: 100vh; /* Đảm bảo chiều cao của body bằng 100% chiều cao của viewport */
+        }
+
+        #main-content {
+            max-width: 600px; /* Đặt giá trị max-width lớn hơn */
+            padding: 20px;
+            background-color: white;
+            border-radius: 20px; /* Tạo box tròn */
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Tạo bóng */
+        }
+
+        textarea, input[type="text"], input[type="submit"] {
+            border-radius: 20px; /* Tạo box tròn */
+            border: 1px solid #ccc; /* Thêm border */
+            padding: 10px; /* Thêm padding */
+            margin-bottom: 10px; /* Khoảng cách dưới */
+            width: 250px; /* Đặt chiều dài của input là 250px */
+            box-sizing: border-box; /* Đảm bảo kích thước tính toán bao gồm cả border và padding */
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50; /* Màu nền */
+            color: white; /* Màu chữ */
+            border: none; /* Loại bỏ border */
+            cursor: pointer; /* Đổi con trỏ khi di chuột */
+            font-size: 20px; /* Đổi kích thước chữ */
+            width: auto; /* Tự động điều chỉnh chiều rộng */
+            padding: 5px 10px; /* Thêm padding */
+            margin-left: 10px; /* Khoảng cách với input */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Màu nền khi hover */
+        }
+
+        #output-container {
+            border: 1px solid black;
+            padding: 10px;
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 20px; /* Tạo box tròn */
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Tạo bóng */
+        }
+
+        #output {
+            white-space: pre-wrap;
+            overflow-x: hidden;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .chat-history {
+            text-align: center; /* Căn giữa nội dung trong div */
+            margin-top: 20px;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Căn giữa theo chiều ngang */
+            justify-content: center; /* Căn giữa theo chiều dọc */
+        }
+
+        .icon-mosquito {
+            position: relative; /* Định vị tương đối để đặt biểu tượng */
+            margin-left: -35px; /* Dịch chuyển biểu tượng về bên trái */
+        }
+    </style>
+    <script>
+        function autoResize(textarea) {
+            var contentHeight = textarea.scrollHeight;
+            if (contentHeight > parseInt(getComputedStyle(textarea).maxHeight)) {
+                contentHeight = parseInt(getComputedStyle(textarea).maxHeight);
+            }
+            textarea.style.height = contentHeight + 'px';
+        }
+    </script>
+</head>
+<body>
+    <div id="main-content">
+        <h1 style="text-align: center;">ChatBot - Book</h1>
+        <div class="flex-container"> <!-- Container để căn giữa "Enter Data" và "boxchat" -->
+            <form action="/process" method="post">
+                <label for="user_input">User:</label><br>
+                <input type="text" id="user_input" style="width: 500px;" name="user_input" >
+                <input type="submit" value="&#10140;"> <!-- Biểu tượng mũi tên nhỏ -->
+            </form>
+
+            <br>
+
+            {% if output %}
+            <div id="output-container" style="border-radius: 20px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);"> <!-- Tạo box tròn và bóng -->
+                <label for="output">ChatAI:</label><br>
+                <div id="output" oninput="autoResize(this)">{{ output }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="chat-history">
+            <h1>Chat History</h1>
+            <form action="/history" method="post">
+                <input type="submit" value="Xem lịch sử">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
